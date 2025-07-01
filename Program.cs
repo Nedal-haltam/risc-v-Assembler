@@ -18,7 +18,7 @@ namespace risc_v_Assembler
                 }
             }
             Assembler.Assembler assembler = new();
-            Assembler.Program? program = assembler.ASSEMBLE(curr_text_dir);
+            Assembler.Program? program = assembler.AssemblyProgram(curr_text_dir);
             if (program.HasValue)
             {
                 m_prog = program.Value;
@@ -32,15 +32,15 @@ namespace risc_v_Assembler
             }
             if (assembler.lblINVINST)
             {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error in {"lblINVINST".ToLower()}\n", 1);
+                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblINVINST".ToLower()}\n", 1);
             }
             if (assembler.lblinvlabel)
             {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error in {"lblinvlabel".ToLower()}\n", 1);
+                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblinvlabel".ToLower()}\n", 1);
             }
             if (assembler.lblmultlabels)
             {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error in {"lblmultlabels".ToLower()}\n", 1);
+                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblmultlabels".ToLower()}\n", 1);
             }
         }
         static void HandleCommand(string[] args)
