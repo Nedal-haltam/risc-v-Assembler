@@ -18,30 +18,9 @@ namespace risc_v_Assembler
                 }
             }
             Assembler.Assembler assembler = new();
-            Assembler.Program? program = assembler.AssemblyProgram(curr_text_dir);
-            if (program.HasValue)
-            {
-                m_prog = program.Value;
-                curr_insts = assembler.GetInstsAsText(m_prog);
-            }
-            else
-            {
-                m_prog.instructions.Clear();
-                m_prog.mc.Clear();
-                curr_insts.Clear();
-            }
-            if (assembler.lblINVINST)
-            {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblINVINST".ToLower()}\n", 1);
-            }
-            if (assembler.lblinvlabel)
-            {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblinvlabel".ToLower()}\n", 1);
-            }
-            if (assembler.lblmultlabels)
-            {
-                Shartilities.Log(Shartilities.LogType.ERROR, $"error {"lblmultlabels".ToLower()}\n", 1);
-            }
+            Assembler.Program program = assembler.AssembleProgram(curr_text_dir);
+            m_prog = program;
+            curr_insts = LibUtils.LibUtils.GetInstsAsText(m_prog);
         }
         static void HandleCommand(string[] args)
         {
@@ -71,16 +50,15 @@ namespace risc_v_Assembler
             DM = DM1;
             Assemble(addresses);
 
-            File.WriteAllLines(MC_filepath, m_prog.mc);
-            File.WriteAllLines(DM_filepath, DM);
-
             List<string> IM_INIT = LibUtils.LibUtils.get_IM_INIT(m_prog.mc, curr_insts);
             File.WriteAllLines(IM_INIT_filepath, IM_INIT);
-
             File.WriteAllLines(DM_INIT_filepath, DM_INIT);
 
-            File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(m_prog.mc, 32, 2048, 2).ToString());
-            File.WriteAllText(DM_MIF_filepath, LibUtils.LibUtils.GetDMMIF(DM, 32, 4096, 10).ToString());
+            //File.WriteAllLines(MC_filepath, m_prog.mc);
+            //File.WriteAllLines(DM_filepath, DM);
+
+            //File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(m_prog.mc, 32, 2048, 2).ToString());
+            //File.WriteAllText(DM_MIF_filepath, LibUtils.LibUtils.GetDMMIF(DM, 32, 4096, 10).ToString());
         }
         static void Main(string[] args)
         {
