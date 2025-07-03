@@ -101,8 +101,9 @@ namespace risc_v_Assembler
             }
             if (source_filepath == null)
             {
+                Shartilities.Log(Shartilities.LogType.ERROR, $"source file path was not provided\n", 1);
                 Usage();
-                Environment.Exit(1);
+                return;
             }
 
             List<string> DM_INIT = [], DM = [];
