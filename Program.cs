@@ -106,15 +106,14 @@ namespace risc_v_Assembler
                 return;
             }
 
-            List<string> DM_INIT = [], DM = [];
             List<string> src = [.. File.ReadAllLines(source_filepath)];
             LibUtils.LibUtils.clean_comments(ref src);
             (List<string> data_dir, List<string> text_dir) = LibUtils.LibUtils.Get_directives(src);
             curr_data_dir = data_dir;
             curr_text_dir = text_dir;
             (List<string> DM_INIT1, List<string> DM1, List<KeyValuePair<string, int>> addresses) = LibUtils.LibUtils.assemble_data_dir(curr_data_dir);
-            DM_INIT = DM_INIT1;
-            DM = DM1;
+            List<string> DM_INIT = DM_INIT1;
+            List<string> DM = DM1;
             Assemble(addresses);
 
             List<string> IM_INIT = LibUtils.LibUtils.get_IM_INIT(m_prog.mc, curr_insts);
