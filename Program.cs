@@ -1,27 +1,7 @@
-﻿using static System.Text.RegularExpressions.Regex;
-
-namespace risc_v_Assembler
+﻿namespace risc_v_Assembler
 {
     internal class Program
     {
-        static Assembler.Program m_prog = new();
-        static List<string> curr_text_dir = [];
-        static List<string> curr_data_dir = [];
-        static List<string> curr_insts = [];
-        static void Assemble(List<KeyValuePair<string, int>> addresses)
-        {
-            foreach (KeyValuePair<string, int> address in addresses)
-            {
-                for (int i = 0; i < curr_text_dir.Count; i++)
-                {
-                    curr_text_dir[i] = Replace(curr_text_dir[i], $@"\b{Escape(address.Key)}\b", address.Value.ToString());
-                }
-            }
-            Assembler.Assembler assembler = new();
-            Assembler.Program program = assembler.AssembleProgram(curr_text_dir);
-            m_prog = program;
-            curr_insts = LibUtils.LibUtils.GetInstsAsText(m_prog);
-        }
         static void Usage()
         {
             Console.WriteLine($"Usage: assembler [options] <source_file>\n");
@@ -106,18 +86,11 @@ namespace risc_v_Assembler
                 return;
             }
 
-            List<string> src = [.. File.ReadAllLines(source_filepath)];
-            LibUtils.LibUtils.clean_comments(ref src);
-            (List<string> data_dir, List<string> text_dir) = LibUtils.LibUtils.Get_directives(src);
-            curr_data_dir = data_dir;
-            curr_text_dir = text_dir;
-            (List<string> DM_INIT1, List<string> DM1, List<KeyValuePair<string, int>> addresses) = LibUtils.LibUtils.assemble_data_dir(curr_data_dir);
-            List<string> DM_INIT = DM_INIT1;
-            List<string> DM = DM1;
-            Assemble(addresses);
+            string src = File.ReadAllText(source_filepath);
+            Assembler.Program p = Assembler.Assembler.AssembleProgram(src);
 
-            List<string> IM_INIT = LibUtils.LibUtils.get_IM_INIT(m_prog.mc, curr_insts);
-
+            List<string> IM_INIT = LibUtils.LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
+            List<string> DM_INIT = LibUtils.LibUtils.GetDM_INIT(p.DataMemoryValues);
 
             if (IM_INIT_filepath != null)
                 File.WriteAllLines(IM_INIT_filepath, IM_INIT);
@@ -125,14 +98,20 @@ namespace risc_v_Assembler
                 File.WriteAllLines(DM_INIT_filepath, DM_INIT);
 
             if (MC_filepath != null)
-                File.WriteAllLines(MC_filepath, m_prog.mc);
+                File.WriteAllLines(MC_filepath, p.MachineCodes);
             if (DM_filepath != null)
-                File.WriteAllLines(DM_filepath, DM);
+                File.WriteAllLines(DM_filepath, p.DataMemoryValues);
 
             if (IM_MIF_filepath != null)
-                File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(m_prog.mc, 32, 2048, 2).ToString());
+            {
+                Shartilities.TODO($"generating mif files is unsupported for now");
+                //File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(p.MachineCodes, 32, 2048, 2).ToString());
+            }
             if (DM_MIF_filepath != null)
-                File.WriteAllText(DM_MIF_filepath, LibUtils.LibUtils.GetDMMIF(DM, 32, 4096, 10).ToString());
+            {
+                Shartilities.TODO($"generating mif files is unsupported for now");
+                //File.WriteAllText(DM_MIF_filepath, LibUtils.LibUtils.GetDMMIF(p.DataMemoryValues, 32, 4096, 10).ToString());
+            }
         }
     }
 }
