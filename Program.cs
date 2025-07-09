@@ -98,7 +98,7 @@ namespace risc_v_Assembler
             //    File.WriteAllLines(DM_INIT_filepath, DM_INIT);
 
             List<string> IM = LibUtils.GetIM(p.MachineCodes);
-            List<string> DM = LibUtils.GetDM(p.DataMemoryValues);
+            List<string> DM = LibUtils.ParseDataMemoryValues(p.DataMemoryValues);
 
             if (MC_filepath != null)
             {
