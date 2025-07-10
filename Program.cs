@@ -14,6 +14,7 @@ namespace risc_v_Assembler
             Console.WriteLine($"  -dm <file>           Path to output data memory file");
             Console.WriteLine($"  --im-mif <file>      Path to output instruction memory .mif file");
             Console.WriteLine($"  --dm-mif <file>      Path to output data memory .mif file");
+            Console.WriteLine($"  -log                 enable loging instruction's attributes while assembling");
             Console.WriteLine();
             Console.WriteLine($"Arguments:");
             Console.WriteLine($"  <source_file>        Assembly source file to be assembled");
@@ -29,7 +30,8 @@ namespace risc_v_Assembler
             string? MC_filepath = null;
             string? DM_filepath = null;
             string? IM_MIF_filepath = null;
-            string? DM_MIF_filepath = null; 
+            string? DM_MIF_filepath = null;
+            bool LOG_INST_FLAG = false;
             while (args.Length > 0)
             {
                 Shartilities.ShiftArgs(ref args, out string arg);
@@ -69,6 +71,10 @@ namespace risc_v_Assembler
                         Shartilities.Log(Shartilities.LogType.ERROR, $"Missing argument data memory mif file path\n", 1);
                     DM_MIF_filepath = temp_DM_MIF_filepath;
                 }
+                else if (arg == "-log")
+                {
+                    LOG_INST_FLAG = true;
+                }
                 else
                 {
                     if (source_filepath == null)
@@ -88,7 +94,7 @@ namespace risc_v_Assembler
                 return;
             }
 
-            LibUtils.Program p = Assembler.Assembler.AssembleProgram(source_filepath);
+            LibUtils.Program p = Assembler.Assembler.AssembleProgram(source_filepath, LOG_INST_FLAG);
 
             //List<string> IM_INIT = LibUtils.LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
             //List<string> DM_INIT = LibUtils.LibUtils.GetDM_INIT(p.DataMemoryValues);
