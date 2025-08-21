@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace risc_v_Assembler
 {
@@ -96,12 +97,12 @@ namespace risc_v_Assembler
 
             LibUtils.Program p = Assembler.Assembler.AssembleProgram(source_filepath, LOG_INST_FLAG);
 
-            //List<string> IM_INIT = LibUtils.LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
-            //List<string> DM_INIT = LibUtils.LibUtils.GetDM_INIT(p.DataMemoryValues);
-            //if (IM_INIT_filepath != null)
-            //    File.WriteAllLines(IM_INIT_filepath, IM_INIT);
-            //if (DM_INIT_filepath != null)
-            //    File.WriteAllLines(DM_INIT_filepath, DM_INIT);
+            StringBuilder IM_INIT = LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
+            StringBuilder DM_INIT = LibUtils.GetDM_INIT(p.DataMemoryValues);
+            if (IM_INIT_filepath != null)
+                File.WriteAllText(IM_INIT_filepath, IM_INIT.ToString());
+            if (DM_INIT_filepath != null)
+                File.WriteAllText(DM_INIT_filepath, DM_INIT.ToString());
 
             List<string> IM = LibUtils.GetIM(p.MachineCodes);
             List<string> DM = LibUtils.ParseDataMemoryValues(p.DataMemoryValues);
