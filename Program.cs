@@ -100,9 +100,15 @@ namespace risc_v_Assembler
             StringBuilder IM_INIT = LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
             StringBuilder DM_INIT = LibUtils.GetDM_INIT(p.DataMemoryValues);
             if (IM_INIT_filepath != null)
+            {
                 File.WriteAllText(IM_INIT_filepath, IM_INIT.ToString());
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated IM_INIT in path {IM_INIT_filepath} successfully\n");
+            }
             if (DM_INIT_filepath != null)
-                File.WriteAllText(DM_INIT_filepath, DM_INIT.ToString());
+            {
+                File.WriteAllText(DM_INIT_filepath, DM_INIT.ToString());            
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated DM_INIT in path {DM_INIT_filepath} successfully\n");
+            }
 
             List<string> IM = LibUtils.GetIM(p.MachineCodes);
             List<string> DM = LibUtils.ParseDataMemoryValues(p.DataMemoryValues);
