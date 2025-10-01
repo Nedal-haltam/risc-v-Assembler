@@ -102,37 +102,37 @@ namespace risc_v_Assembler
             if (IM_INIT_filepath != null)
             {
                 File.WriteAllText(IM_INIT_filepath, IM_INIT.ToString());
-                Shartilities.Log(Shartilities.LogType.INFO, $"Generated IM_INIT in path {IM_INIT_filepath} successfully\n");
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated {IM_INIT_filepath}\n");
             }
             if (DM_INIT_filepath != null)
             {
                 File.WriteAllText(DM_INIT_filepath, DM_INIT.ToString());            
-                Shartilities.Log(Shartilities.LogType.INFO, $"Generated DM_INIT in path {DM_INIT_filepath} successfully\n");
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated {DM_INIT_filepath}\n");
             }
-
-            List<string> IM = LibUtils.GetIM(p.MachineCodes);
-            List<string> DM = LibUtils.ParseDataMemoryValues(p.DataMemoryValues);
 
             if (MC_filepath != null)
             {
+                List<string> IM = LibUtils.GetIM(p.MachineCodes);
                 File.WriteAllLines(MC_filepath, IM);
-                Shartilities.Log(Shartilities.LogType.INFO, $"Generated MC in path {MC_filepath} successfully\n");
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated {MC_filepath}\n");
             }
+
             if (DM_filepath != null)
             {
-                Shartilities.Log(Shartilities.LogType.INFO, $"Generated MC in path {DM_filepath} successfully\n");
+                List<string> DM = LibUtils.ParseDataMemoryValues(p.DataMemoryValues);
                 File.WriteAllLines(DM_filepath, DM);
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated {DM_filepath}\n");
             }
 
             if (IM_MIF_filepath != null)
             {
-                //Shartilities.Log(Shartilities.LogType.WARNING, $"generating mif files is unsupported for now\n");
                 //File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(p.MachineCodes, 32, 2048, 2).ToString());
             }
+
             if (DM_MIF_filepath != null)
             {
-                //Shartilities.Log(Shartilities.LogType.WARNING, $"generating mif files is unsupported for now\n");
-                //File.WriteAllText(DM_MIF_filepath, LibUtils.LibUtils.GetDMMIF(p.DataMemoryValues, 32, 4096, 10).ToString());
+                File.WriteAllText(DM_MIF_filepath, LibUtils.GetDMMIF(p.DataMemoryValues).ToString());
+                Shartilities.Log(Shartilities.LogType.INFO, $"Generated {DM_MIF_filepath}\n");
             }
         }
     }
