@@ -97,15 +97,15 @@ namespace risc_v_Assembler
 
             LibUtils.Program p = Assembler.Assembler.AssembleProgram(source_filepath, LOG_INST_FLAG);
 
-            StringBuilder IM_INIT = LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
-            StringBuilder DM_INIT = LibUtils.GetDM_INIT(p.DataMemoryValues);
             if (IM_INIT_filepath != null)
             {
+                StringBuilder IM_INIT = LibUtils.GetIM_INIT(p.MachineCodes, p.Instructions);
                 File.WriteAllText(IM_INIT_filepath, IM_INIT.ToString());
                 Shartilities.Log(Shartilities.LogType.INFO, $"Generated {IM_INIT_filepath}\n");
             }
             if (DM_INIT_filepath != null)
             {
+                StringBuilder DM_INIT = LibUtils.GetDM_INIT(p.DataMemoryValues);
                 File.WriteAllText(DM_INIT_filepath, DM_INIT.ToString());            
                 Shartilities.Log(Shartilities.LogType.INFO, $"Generated {DM_INIT_filepath}\n");
             }
