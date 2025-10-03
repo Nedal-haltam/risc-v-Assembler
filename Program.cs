@@ -126,7 +126,7 @@ namespace risc_v_Assembler
 
             if (IM_MIF_filepath != null)
             {
-                //File.WriteAllText(IM_MIF_filepath, LibUtils.LibUtils.GetIMMIF(p.MachineCodes, 32, 2048, 2).ToString());
+                File.WriteAllText(IM_MIF_filepath, LibUtils.GetIMMIF(p.MachineCodes).ToString());
             }
 
             if (DM_MIF_filepath != null)
