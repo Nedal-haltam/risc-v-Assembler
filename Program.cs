@@ -126,12 +126,12 @@ namespace risc_v_Assembler
 
             if (IM_MIF_filepath != null)
             {
-                File.WriteAllText(IM_MIF_filepath, LibUtils.GetIMMIF(p.MachineCodes).ToString());
+                File.WriteAllText(IM_MIF_filepath, LibUtils.GetIMMIF(p.MachineCodes, 8192).ToString());
             }
 
             if (DM_MIF_filepath != null)
             {
-                File.WriteAllText(DM_MIF_filepath, LibUtils.GetDMMIF(p.DataMemoryValues).ToString());
+                File.WriteAllText(DM_MIF_filepath, LibUtils.GetDMMIF(p.DataMemoryValues, 8192).ToString());
                 Shartilities.Log(Shartilities.LogType.INFO, $"Generated {DM_MIF_filepath}\n");
             }
         }
